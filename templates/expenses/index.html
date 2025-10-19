@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="flex items-center justify-between mb-4">
+  <h1 class="text-2xl font-semibold">Expenses</h1>
+  <div class="space-x-2">
+    <a href="{% url 'expenses:add' %}" class="px-3 py-2 bg-indigo-600 text-white rounded">Add</a>
+    <a href="{% url 'expenses:export' %}" class="px-3 py-2 bg-gray-200 rounded">Export CSV</a>
+  </div>
+</div>
+<form method="get" class="mb-4 flex items-end gap-2">
+  <div>
+    <label class="block text-sm">Start</label>
+    <input type="date" name="start" value="{{ start }}" class="border rounded p-2">
+  </div>
+  <div>
+    <label class="block text-sm">End</label>
+    <input type="date" name="end" value="{{ end }}" class="border rounded p-2">
+  </div>
+  <button class="px-3 py-2 bg-gray-800 text-white rounded" type="submit">Filter</button>
+</form>
+<div class="bg-white rounded shadow overflow-x-auto">
+  <table class="min-w-full">
+    <thead>
+      <tr class="border-b bg-gray-50 text-left">
+        <th class="p-2">Date</th>
+        <th class="p-2">Kind</th>
+        <th class="p-2">Category</th>
+        <th class="p-2">Amount</th>
+        <th class="p-2">Notes</th>
+        <th class="p-2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in expenses %}
+      <tr class="border-b">
+        <td class="p-2">{{ e.date }}</td>
+        <td class="p-2">{{ e.get_kind_display }}</td>
+        <td class="p-2">{{ e.category }}</td>
+        <td class="p-2">{{ e.amount }}</td>
+        <td class="p-2">{{ e.notes|default:'—' }}</td>
+        <td class="p-2 text-right space-x-2">
+          <a href="{% url 'expenses:edit' e.pk %}" class="text-indigo-600">Edit</a>
+          <a href="{% url 'expenses:delete' e.pk %}" class="text-red-600">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td class="p-2" colspan="6">No records.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

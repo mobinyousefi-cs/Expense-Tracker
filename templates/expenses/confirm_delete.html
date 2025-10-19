@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
+  <h1 class="text-xl font-semibold mb-4">Delete Record</h1>
+  <p>Are you sure you want to delete <strong>{{ expense.category }}</strong> ({{ expense.amount }})?</p>
+  <form method="post" class="mt-4">{% csrf_token %}
+    <button class="px-4 py-2 bg-red-600 text-white rounded" type="submit">Delete</button>
+    <a href="{% url 'expenses:index' %}" class="px-4 py-2 bg-gray-200 rounded">Cancel</a>
+  </form>
+</div>
+{% endblock %}

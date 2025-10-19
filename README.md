@@ -1,4 +1,3 @@
-"""
 # Python Expense Tracker (Django)
 
 A clean, production‑ready Django application to track **inflows** (income) and **outflows** (expenses), visualize spending with **weekly / monthly / yearly** charts, and enforce savings goals. Built with a modular `src/` layout, pytest, and CI.
@@ -64,4 +63,3 @@ The dashboard uses **Chart.js** via CDN. Endpoints return JSON; the page renders
 
 ## License
 MIT — see LICENSE.
-"""

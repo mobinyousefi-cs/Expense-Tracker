@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">Dashboard</h1>
+<div class="grid md:grid-cols-3 gap-6">
+  <div class="bg-white p-4 rounded shadow">
+    <h2 class="font-semibold mb-2">Weekly</h2>
+    <canvas id="chartWeekly"></canvas>
+  </div>
+  <div class="bg-white p-4 rounded shadow">
+    <h2 class="font-semibold mb-2">Monthly</h2>
+    <canvas id="chartMonthly"></canvas>
+  </div>
+  <div class="bg-white p-4 rounded shadow">
+    <h2 class="font-semibold mb-2">Yearly</h2>
+    <canvas id="chartYearly"></canvas>
+  </div>
+</div>
+<script>
+async function loadCharts(){
+  const res = await fetch("{% url 'dashboard:chart-data' %}");
+  const data = await res.json();
+  function pie(elId, labels, inflow, outflow){
+    const ctx = document.getElementById(elId).getContext('2d');
+    new Chart(ctx, {type: 'pie', data: {labels, datasets: [
+      {label: 'Inflow', data: inflow},
+      {label: 'Outflow', data: outflow}
+    ]}});
+  }
+  pie('chartWeekly', data.weekly.categories, data.weekly.inflow, data.weekly.outflow);
+  pie('chartMonthly', data.monthly.categories, data.monthly.inflow, data.monthly.outflow);
+  pie('chartYearly', data.yearly.categories, data.yearly.inflow, data.yearly.outflow);
+}
+loadCharts();
+</script>
+{% endblock %}
